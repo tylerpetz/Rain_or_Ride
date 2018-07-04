@@ -1,27 +1,24 @@
 import React from 'react';
 import Card from '../Card/Card';
 
+const CardList = (props) => {
+	if(!props.forecast){
+		return <div> Loading ... </div>;
+	}
 
-const CardList = ({ daysarray }) => {
+
+	const weatherCards = props.forecast.map((item, i) => {
+
+		return <Card 
+			key={i}
+			id={i}
+			forecast={props.forecast}
+			/>
+	});
+
 	return (
-		<div>
-		{
-			daysarray.map((days, i) => {
-				return (
-					<Card 
-						key={i}
-						day={daysarray[i].day} 
-						id={daysarray[i].id}  
-					/>
-				);
-			})
-		}
-		</div>	
-	);
-}	
-
-
-
+		<ul>{weatherCards}</ul>
+		);
+};
 
 export default CardList;
-
