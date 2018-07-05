@@ -1,6 +1,6 @@
 .card {
-   width:200px; /* or whatever width you want. */
-   max-width:200px; /* or whatever width you want. */
+   width:250px; /* or whatever width you want. */
+   max-width:250px; /* or whatever width you want. */
    display: inline-block;
    height:300px;
    max-height:300px;
