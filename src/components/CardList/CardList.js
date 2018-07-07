@@ -1,7 +1,9 @@
 import React from 'react';
 import Card from '../Card/Card';
+import ReactSiema from 'react-siema'
 
 const CardList = (props) => {
+	let slider
 	
 	if(!props.forecast){
 		return <div> Loading ... </div>;
@@ -16,8 +18,21 @@ const CardList = (props) => {
 			/>
 	});
 
+	const options = {
+    duration: 750,
+    perPage: 3,
+    startIndex: 1
+
+}
+
+
+
 	return (
-		<ul>{weatherCards}</ul>
+		<div>
+            <ReactSiema {...options}>
+    			{weatherCards}
+			</ReactSiema>
+        </div>
 		);
 };
 
