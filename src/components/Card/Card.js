@@ -13,7 +13,7 @@ const Card = ({ forecast, wind, id }) => {
 
 
 	function weatherImage() {
-		if (weatherText === 'Thunderstorms' || weatherText === 'Scattered Showers' || weatherText === 'Scattered Thunderstorms') {
+		if (weatherText === 'Thunderstorms' || weatherText === 'Scattered Showers' || weatherText === 'Scattered Thunderstorms' || weatherText === 'Rain') {
 			return rainy;
 		} else if (weatherText === 'Cloudy' || weatherText === 'Mostly Cloudy' || weatherText === 'Partly Cloudy') {
 			return cloudy;
