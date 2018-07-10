@@ -1,13 +1,14 @@
 import React from 'react';
+import Card from '../Card/Card';
 
 const CardList = (props) => {
+    const cardListItems = props.forecast.map(card => {
+        return <Card stats={card} />
+    })
 	return (
-		<div>
-            <h1>Temperature: {props.forecast.temp}</h1>
-            <h3>Description: {props.forecast.description}</h3>
-            <h3>Humidity: {props.forecast.humidity}%</h3>
-            <h3>Wind: {props.forecast.wind}%</h3>
-		</div>
+        <ul>
+            {cardListItems}
+        </ul>
 	)	
 }
 

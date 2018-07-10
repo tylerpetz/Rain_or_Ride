@@ -27,25 +27,22 @@ class App extends Component {
     const city = 'Sarasota';
     const country = 'us';
 
-    const api_call = await 
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=
-      ${city},${country}&appid=${API_KEY}&units=imperial`);
+    const api_call = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&appid=${API_KEY}&units=imperial`
+    );
 
-      const data = await api_call.json();
-      console.log(data);
+    const data = await api_call.json();
+    console.log(data);
 
-      const dataItem = data.list[0];
+    let forecast = data.list.map((data, index) => {
+      return data
+    });
 
     this.setState({
       city: data.city.name,
       country: data.city.country,
-      forecast: {
-        temp: dataItem.main.temp,
-        humidity: dataItem.main.humidity,
-        wind: dataItem.wind.speed,
-        description: dataItem.weather[0].description
-      }
-    })
+      forecast: forecast
+    });
   }   
 
   render() {
