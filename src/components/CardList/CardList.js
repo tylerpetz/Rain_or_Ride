@@ -1,14 +1,12 @@
 import React from 'react';
-import Card from '../Card/Card';
 
 const CardList = (props) => {
-	console.log(props.forecast);
-
-
-
 	return (
 		<div>
-		nothing
+            <h1>Temperature: {props.forecast.temp}</h1>
+            <h3>Description: {props.forecast.description}</h3>
+            <h3>Humidity: {props.forecast.humidity}%</h3>
+            <h3>Wind: {props.forecast.wind}%</h3>
 		</div>
 	)	
 }

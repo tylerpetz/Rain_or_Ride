@@ -17,11 +17,12 @@ class App extends Component {
     description: undefined,
     loading: false,
     forecast: [],
-    error: undefined
+    error: false
   } 
 
   
   getWeather = async (e) => {
+
     e.preventDefault();
     const city = 'Sarasota';
     const country = 'us';
@@ -33,45 +34,26 @@ class App extends Component {
       const data = await api_call.json();
       console.log(data);
 
-      
-   this.setState({
-        temp: data.list[0].main.temp,
-        city: data.city.name,
-        wind: data.list[0].wind.speed,
-        country: data.city.country,
-        humidity: data.list[0].main.humidity,
-        description: data.list[0].weather[0].description,
-        error: "",
-        forecast: data.list.map(data => ({
-          temp: data.main.temp,
-          humidity: data.main.humidity,
-          weather: data.weather[0].description,
-          
-      }))
+      const dataItem = data.list[0];
 
-
-
-  })    
-
-
-  }
+    this.setState({
+      city: data.city.name,
+      country: data.city.country,
+      forecast: {
+        temp: dataItem.main.temp,
+        humidity: dataItem.main.humidity,
+        wind: dataItem.wind.speed,
+        description: dataItem.weather[0].description
+      }
+    })
+  }   
 
   render() {
-
     return (
       <div className="App">
-      	 <Form
-            getWeather={this.getWeather} 
-         />
-         <BigCard 
-            temp={this.state.temp}
-            description={this.state.description} 
-            humidity={this.state.humidity}
-            wind={this.state.wind}
-          />
-          <CardList forecast={this.state.forecast}
-          />
-          
+        <Form getWeather={this.getWeather} />
+        <BigCard weather={this.state} />
+        <CardList forecast={this.state.forecast} />
       </div>
     );
   }
