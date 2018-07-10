@@ -1,44 +1,77 @@
 import React, { Component } from 'react';
+
+import Form from './components/Form/Form';
+import BigCard from './components/BigCard/BigCard';
 import CardList from './components/CardList/CardList';
-import SearchBar from './components/SearchBar/SearchBar';
 import './App.css';
 
-//some things i added
-const moment = require('moment');
-const time = moment().format('MMMM Do, YYYY');
-const location = "sarasota, fl";
-const url = `https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="${location}")&format=json&env=store://datatables.org/alltableswithkeys`;
+const API_KEY = "1a93796ff9e54d849be4786794a606d1";
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { 
-      forecast: [],
-      wind: [], 
-    };
-    
-    this.forecastQuery();
-    }
+   state = {
+    temp: undefined,
+    city: undefined,
+    country: undefined,
+    wind: undefined,
+    humidity: undefined,
+    description: undefined,
+    loading: false,
+    forecast: [],
+    error: undefined
+  } 
 
-   forecastQuery = () => {
-    fetch(url)
-      .then(response => response.json())
-      .then(res => this.setState({ 
-        forecast: res.query.results.channel.item.forecast, 
-        wind: res.query.results.channel.wind}))
-      .catch(error => console.error(error));
-  }
   
+  getWeather = async (e) => {
+    e.preventDefault();
+    const city = 'Sarasota';
+    const country = 'us';
+
+    const api_call = await 
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=
+      ${city},${country}&appid=${API_KEY}&units=imperial`);
+
+      const data = await api_call.json();
+      console.log(data);
+
+      
+   this.setState({
+        temp: data.list[0].main.temp,
+        city: data.city.name,
+        wind: data.list[0].wind.speed,
+        country: data.city.country,
+        humidity: data.list[0].main.humidity,
+        description: data.list[0].weather[0].description,
+        error: "",
+        forecast: data.list.map(data => ({
+          temp: data.main.temp,
+          humidity: data.main.humidity,
+          weather: data.weather[0].description,
+          
+      }))
+
+
+
+  })    
+
+
+  }
 
   render() {
+
     return (
       <div className="App">
-      	<SearchBar />
-      	<h1 className='avenir headline'>Forecast for the week of {time}</h1>
-        <CardList 
-          wind={this.state.wind}
-          forecast={this.state.forecast}
-        />
+      	 <Form
+            getWeather={this.getWeather} 
+         />
+         <BigCard 
+            temp={this.state.temp}
+            description={this.state.description} 
+            humidity={this.state.humidity}
+            wind={this.state.wind}
+          />
+          <CardList forecast={this.state.forecast}
+          />
+          
       </div>
     );
   }
